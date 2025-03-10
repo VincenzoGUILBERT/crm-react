@@ -1,7 +1,10 @@
 api_platform:
-    title: Hello API Platform
+    title: crm-react
     version: 1.0.0
     defaults:
         stateless: true
         cache_headers:
-            vary: ['Content-Type', 'Authorization', 'Origin']
+            vary: ["Content-Type", "Authorization", "Origin"]
+        pagination_enabled: false
+        pagination_items_per_page: 25
+        pagination_maximum_items_per_page: 200

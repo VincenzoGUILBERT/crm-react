@@ -2,41 +2,59 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Doctrine\Orm\Filter\SearchFilter;
+use ApiPlatform\Metadata\ApiFilter;
+use App\Entity\User;
+use Doctrine\ORM\Mapping as ORM;
 use ApiPlatform\Metadata\ApiResource;
 use App\Repository\CustomerRepository;
-use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
-use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: CustomerRepository::class)]
-#[ApiResource]
+#[ApiResource(
+    paginationEnabled: true,
+    paginationItemsPerPage: 50,
+    paginationClientItemsPerPage: true,
+    order: ['lastName' => 'ASC'],
+    normalizationContext: ['groups' => ['customers_read']]
+)]
+#[ApiFilter(SearchFilter::class, properties: ['firstName' => "start", 'lastName' => 'start'])]
 class Customer
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups(['customers_read', 'invoices_read'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups(['customers_read', 'invoices_read'])]
     private ?string $firstName = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups(['customers_read', 'invoices_read'])]
     private ?string $lastName = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups(['customers_read', 'invoices_read'])]
     private ?string $email = null;
 
     #[ORM\Column(length: 255, nullable: true)]
+    #[Groups(['customers_read', 'invoices_read'])]
     private ?string $company = null;
 
     /**
      * @var Collection<int, Invoice>
      */
     #[ORM\OneToMany(targetEntity: Invoice::class, mappedBy: 'customer', orphanRemoval: true)]
+    #[Groups(['customers_read'])]
     private Collection $invoices;
 
     #[ORM\ManyToOne(inversedBy: 'customers')]
     #[ORM\JoinColumn(nullable: false)]
+    #[Groups(['customers_read'])]
     private ?User $user = null;
 
     public function __construct()
@@ -95,6 +113,24 @@ class Customer
         $this->company = $company;
 
         return $this;
+    }
+
+    #[Groups(['customers_read'])]
+    public function getTotalAmount(): float
+    {
+        return array_reduce($this->invoices->toArray(), function($total, $invoice) {
+            return $total + $invoice->getAmount();
+        }, 0);
+    }
+
+    #[Groups(['customers_read'])]
+    public function getUnpaidAmount(): float
+    {
+        return array_reduce($this->invoices->toArray(), function($total, $invoice) {
+            if ($invoice->getStatus() == 'SENT') {
+                return $total + $invoice->getAmount();
+            }
+        }, 0);
     }
 
     /**
