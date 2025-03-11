@@ -2,25 +2,38 @@
 
 namespace App\Entity;
 
-use ApiPlatform\Doctrine\Orm\Filter\SearchFilter;
-use ApiPlatform\Metadata\ApiFilter;
 use App\Entity\User;
+use ApiPlatform\Metadata\Get;
 use Doctrine\ORM\Mapping as ORM;
+use ApiPlatform\Metadata\ApiFilter;
 use ApiPlatform\Metadata\ApiResource;
 use App\Repository\CustomerRepository;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
+use ApiPlatform\Doctrine\Orm\Filter\SearchFilter;
+use ApiPlatform\Metadata\Delete;
+use ApiPlatform\Metadata\GetCollection;
+use ApiPlatform\Metadata\Patch;
+use ApiPlatform\Metadata\Post;
 use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Validator\Constraints as Assert;
 
-#[ORM\Entity(repositoryClass: CustomerRepository::class)]
 #[ApiResource(
     paginationEnabled: true,
     paginationItemsPerPage: 50,
     paginationClientItemsPerPage: true,
     order: ['lastName' => 'ASC'],
-    normalizationContext: ['groups' => ['customers_read']]
+    normalizationContext: ['groups' => ['customers_read']],
+    operations: [
+        new Get(),
+        new Post(),
+        new GetCollection(),
+        new Patch(),
+        new Delete()
+    ]
 )]
 #[ApiFilter(SearchFilter::class, properties: ['firstName' => "start", 'lastName' => 'start'])]
+#[ORM\Entity(repositoryClass: CustomerRepository::class)]
 class Customer
 {
     #[ORM\Id]
@@ -31,14 +44,28 @@ class Customer
 
     #[ORM\Column(length: 255)]
     #[Groups(['customers_read', 'invoices_read'])]
+    #[Assert\Length(
+        min: 2,
+        max: 255,
+        minMessage: "Le prénom doit faire entre 2 et 255 caractères",
+        maxMessage: "Le prénom doit faire entre 2 et 255 caractères"
+    )]
     private ?string $firstName = null;
 
     #[ORM\Column(length: 255)]
     #[Groups(['customers_read', 'invoices_read'])]
+    #[Assert\Length(
+        min: 2,
+        max: 255,
+        minMessage: "Le nom doit faire entre 2 et 255 caractères",
+        maxMessage: "Le nom doit faire entre 2 et 255 caractères"
+    )]
     private ?string $lastName = null;
 
     #[ORM\Column(length: 255)]
     #[Groups(['customers_read', 'invoices_read'])]
+    #[Assert\NotBlank(message:"Cette valeure ne peut pas être vide.")]
+    #[Assert\Email(message: "Adresse invalide.")]
     private ?string $email = null;
 
     #[ORM\Column(length: 255, nullable: true)]
@@ -55,6 +82,7 @@ class Customer
     #[ORM\ManyToOne(inversedBy: 'customers')]
     #[ORM\JoinColumn(nullable: false)]
     #[Groups(['customers_read'])]
+    #[Assert\NotBlank(message: "L'utilisateur doit être renseigné.")]
     private ?User $user = null;
 
     public function __construct()

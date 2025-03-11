@@ -9,6 +9,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
@@ -24,6 +25,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\Column(length: 180)]
     #[Groups(['invoices_read'])]
+    #[Assert\NotBlank(message: "email obligatoire")]
+    #[Assert\Email(message: "Adresse invalide.")]
     private ?string $email = null;
 
     /**
@@ -40,10 +43,22 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\Column(length: 255)]
     #[Groups(['invoices_read'])]
+    #[Assert\Length(
+        min: 2,
+        max: 255,
+        minMessage: "Le prénom doit faire entre 2 et 255 caractères",
+        maxMessage: "Le prénom doit faire entre 2 et 255 caractères"
+    )]
     private ?string $firstName = null;
 
     #[ORM\Column(length: 255)]
     #[Groups(['invoices_read'])]
+    #[Assert\Length(
+        min: 2,
+        max: 255,
+        minMessage: "Le nom doit faire entre 2 et 255 caractères",
+        maxMessage: "Le nom doit faire entre 2 et 255 caractères"
+    )]
     private ?string $lastName = null;
 
     /**
