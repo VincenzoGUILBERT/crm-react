@@ -7,16 +7,21 @@
 
 // any CSS you import will output into a single css file (app.css in this case)
 import { createRoot } from "react-dom/client";
+import { HashRouter, Route, Routes } from "react-router-dom";
 import "./styles/app.css";
 import Navbar from "./components/Navbar";
 import HomePage from "./pages/HomePage";
+import CustomersPage from "./pages/CustomersPage";
 
 const root = createRoot(document.getElementById("app"));
 root.render(
-	<>
+	<HashRouter>
 		<Navbar />
-		<div className="container pt-5">
-			<HomePage />
-		</div>
-	</>
+		<main className="container pt-5">
+			<Routes>
+				<Route path="/" element={<HomePage />} />
+				<Route path="/customers" element={<CustomersPage />} />
+			</Routes>
+		</main>
+	</HashRouter>
 );

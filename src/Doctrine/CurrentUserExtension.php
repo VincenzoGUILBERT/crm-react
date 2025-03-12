@@ -9,6 +9,7 @@ use ApiPlatform\Doctrine\Orm\Extension\QueryItemExtensionInterface;
 use ApiPlatform\Doctrine\Orm\Extension\QueryCollectionExtensionInterface;
 use App\Entity\Customer;
 use App\Entity\Invoice;
+use App\Entity\User;
 use Symfony\Bundle\SecurityBundle\Security;
 
 class CurrentUserExtension implements QueryCollectionExtensionInterface, QueryItemExtensionInterface
@@ -20,8 +21,8 @@ class CurrentUserExtension implements QueryCollectionExtensionInterface, QueryIt
     private function addWhere(QueryBuilder $queryBuilder, string $resourceClass)
     {
         $user = $this->security->getUser();
-        
-        if ($resourceClass == Customer::class || $resourceClass == Invoice::class) {
+
+        if (($resourceClass == Customer::class || $resourceClass == Invoice::class) && $user instanceof User) {
 
             $rootAlias = $queryBuilder->getRootAliases()[0];
 
@@ -29,7 +30,7 @@ class CurrentUserExtension implements QueryCollectionExtensionInterface, QueryIt
                 $queryBuilder->andWhere("$rootAlias.user = :user");
             } else {
                 $queryBuilder->join("$rootAlias.customer", "c")
-                             ->andWhere("c.user = :user");
+                    ->andWhere("c.user = :user");
             }
 
             $queryBuilder->setParameter('user', $user);
@@ -45,5 +46,4 @@ class CurrentUserExtension implements QueryCollectionExtensionInterface, QueryIt
     {
         $this->addWhere($queryBuilder, $resourceClass);
     }
-
 }
