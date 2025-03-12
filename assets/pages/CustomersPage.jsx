@@ -12,6 +12,21 @@ const CustomersPage = (props) => {
 			.catch((error) => console.log(error.response));
 	}, []);
 
+	const handleDelete = (id) => {
+		const originalCustomers = [...customers];
+		setCustomers(customers.filter((customer) => customer.id !== id));
+
+		axios
+			.delete("http://127.0.0.1:8000/api/customers/" + id)
+			.then((response) => {
+				console.log(response);
+			})
+			.catch((error) => {
+				setCustomers(originalCustomers);
+				console.log(error.response);
+			});
+	};
+
 	return (
 		<>
 			<table className="table-hover">
@@ -38,7 +53,10 @@ const CustomersPage = (props) => {
 							<td>{customer.invoices.length}</td>
 							<td>{customer.totalAmount.toLocaleString()} $</td>
 							<td>
-								<button className="btn btn-outline-danger">
+								<button
+									onClick={() => handleDelete(customer.id)}
+									className="btn btn-outline-danger"
+								>
 									Supprimer
 								</button>
 							</td>
