@@ -1,8 +1,10 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
+import Pagination from "../components/Pagination";
 
 const CustomersPage = (props) => {
 	const [customers, setCustomers] = useState([]);
+	const [currentPage, setCurrentPage] = useState(1);
 
 	useEffect(() => {
 		axios
@@ -27,6 +29,17 @@ const CustomersPage = (props) => {
 			});
 	};
 
+	const handleCurrentPage = (page) => {
+		setCurrentPage(page);
+	};
+
+	const itemsPerPage = 10;
+	const paginatedCustomers = Pagination.getData(
+		customers,
+		currentPage,
+		itemsPerPage
+	);
+
 	return (
 		<>
 			<table className="table-hover">
@@ -42,7 +55,7 @@ const CustomersPage = (props) => {
 					</tr>
 				</thead>
 				<tbody>
-					{customers.map((customer) => (
+					{paginatedCustomers.map((customer) => (
 						<tr key={customer.id} className="table-light">
 							<td>{customer.id}</td>
 							<td>
@@ -64,6 +77,13 @@ const CustomersPage = (props) => {
 					))}
 				</tbody>
 			</table>
+
+			<Pagination
+				currentPage={currentPage}
+				itemsPerPage={itemsPerPage}
+				length={customers.length}
+				onPageChange={handleCurrentPage}
+			/>
 		</>
 	);
 };

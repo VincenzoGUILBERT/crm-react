@@ -3,11 +3,8 @@
     "app": {
       "js": [
         "http://localhost:8080/build/runtime.js",
-        "http://localhost:8080/build/vendors-node_modules_mini-css-extract-plugin_dist_hmr_hotModuleReplacement_js-node_modules_re-ff860f.js",
+        "http://localhost:8080/build/vendors-node_modules_react-dom_client_js-node_modules_react_jsx-runtime_js-node_modules_webpa-601640.js",
         "http://localhost:8080/build/app.js"
-      ],
-      "css": [
-        "http://localhost:8080/build/app.css"
       ]
     }
   }
