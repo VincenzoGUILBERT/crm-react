@@ -1,9 +1,20 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}crm-react{% endblock %}
+{% block title %}crm-react
+{% endblock %}
+
+{% block stylesheets %}
+	<link rel="stylesheet" href="https://bootswatch.com/5/morph/bootstrap.min.css">
+	{{ encore_entry_link_tags('app') }}
+
+{% endblock %}
 
 {% block body %}
 
-    <div id="app"></div>
+	<div id="app"></div>
 
+{% endblock %}
+
+{% block javascripts %}
+	{{ encore_entry_script_tags('app') }}
 {% endblock %}

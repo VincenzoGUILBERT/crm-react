@@ -8,6 +8,15 @@
 // any CSS you import will output into a single css file (app.css in this case)
 import { createRoot } from "react-dom/client";
 import "./styles/app.css";
+import Navbar from "./components/Navbar";
+import HomePage from "./pages/HomePage";
 
 const root = createRoot(document.getElementById("app"));
-root.render(<h1>Hello, world</h1>);
+root.render(
+	<>
+		<Navbar />
+		<div className="container pt-5">
+			<HomePage />
+		</div>
+	</>
+);
