@@ -7,7 +7,7 @@
 
 // any CSS you import will output into a single css file (app.css in this case)
 import { createRoot } from "react-dom/client";
-import { HashRouter, Navigate, Route, Routes } from "react-router-dom";
+import { HashRouter, Route, Routes } from "react-router-dom";
 // import "./styles/app.css";
 import Navbar from "./components/Navbar";
 import HomePage from "./pages/HomePage";
@@ -17,6 +17,7 @@ import LoginPage from "./pages/LoginPage";
 import AuthApi from "./services/AuthApi";
 import { useState } from "react";
 import Private from "./components/Private";
+import AuthContext from "./contexts/AuthContext";
 
 const App = () => {
 	AuthApi.setUp();
@@ -24,38 +25,39 @@ const App = () => {
 		AuthApi.isAuthenticated()
 	);
 
+	const contextValue = {
+		isAuthenticated,
+		setIsAuthenticated,
+	};
+
 	return (
-		<HashRouter>
-			<Navbar
-				isAuthenticated={isAuthenticated}
-				onLogout={setIsAuthenticated}
-			/>
-			<main className="container pt-5">
-				<Routes>
-					<Route path="/" element={<HomePage />} />
-					<Route
-						path="/login"
-						element={<LoginPage onLogin={setIsAuthenticated} />}
-					/>
-					<Route
-						path="/customers"
-						element={
-							<Private isAuth={isAuthenticated}>
-								<CustomersPage />
-							</Private>
-						}
-					/>
-					<Route
-						path="/invoices"
-						element={
-							<Private isAuth={isAuthenticated}>
-								<InvoicesPage />
-							</Private>
-						}
-					/>
-				</Routes>
-			</main>
-		</HashRouter>
+		<AuthContext.Provider value={contextValue}>
+			<HashRouter>
+				<Navbar />
+				<main className="container pt-5">
+					<Routes>
+						<Route path="/" element={<HomePage />} />
+						<Route path="/login" element={<LoginPage />} />
+						<Route
+							path="/customers"
+							element={
+								<Private>
+									<CustomersPage />
+								</Private>
+							}
+						/>
+						<Route
+							path="/invoices"
+							element={
+								<Private>
+									<InvoicesPage />
+								</Private>
+							}
+						/>
+					</Routes>
+				</main>
+			</HashRouter>
+		</AuthContext.Provider>
 	);
 };
 

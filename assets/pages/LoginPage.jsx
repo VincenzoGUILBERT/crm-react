@@ -1,9 +1,13 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import AuthApi from "../services/AuthApi";
 import { useNavigate } from "react-router-dom";
+import AuthContext from "../contexts/AuthContext";
 
-const LoginPage = ({ onLogin }) => {
+const LoginPage = (props) => {
 	const navigate = useNavigate();
+
+	const { setIsAuthenticated } = useContext(AuthContext);
+
 	const [credentials, setCredentials] = useState({
 		username: "",
 		password: "",
@@ -20,7 +24,7 @@ const LoginPage = ({ onLogin }) => {
 
 		try {
 			await AuthApi.authenticate(credentials);
-			onLogin(true);
+			setIsAuthenticated(true);
 			setError("");
 			navigate("/customers");
 		} catch (error) {
