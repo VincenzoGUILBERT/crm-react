@@ -16,11 +16,11 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: InvoiceRepository::class)]
 #[ApiResource(
-    paginationEnabled: true,
+    paginationEnabled: false,
     paginationItemsPerPage: 10,
     normalizationContext: ['groups' => ['invoices_read']],
     collectDenormalizationErrors: true
-    
+
 )]
 #[ApiResource(
     uriTemplate: '/customers/{id}/invoices',
@@ -29,11 +29,11 @@ use Symfony\Component\Validator\Constraints as Assert;
             fromClass: Customer::class,
             fromProperty: 'invoices'
         )
-        ],
+    ],
     operations: [new GetCollection()],
     normalizationContext: ['groups' => ['invoices_sub']]
 )]
-#[ApiFilter(OrderFilter::class, properties:['sentAt', 'amount'])]
+#[ApiFilter(OrderFilter::class, properties: ['sentAt', 'amount'])]
 class Invoice
 {
     #[ORM\Id]

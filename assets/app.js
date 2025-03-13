@@ -12,6 +12,7 @@ import { HashRouter, Route, Routes } from "react-router-dom";
 import Navbar from "./components/Navbar";
 import HomePage from "./pages/HomePage";
 import CustomersPage from "./pages/CustomersPage";
+import InvoicesPage from "./pages/InvoicesPage";
 
 const root = createRoot(document.getElementById("app"));
 root.render(
@@ -21,6 +22,7 @@ root.render(
 			<Routes>
 				<Route path="/" element={<HomePage />} />
 				<Route path="/customers" element={<CustomersPage />} />
+				<Route path="/invoices" element={<InvoicesPage />} />
 			</Routes>
 		</main>
 	</HashRouter>
