@@ -13,6 +13,7 @@ import Navbar from "./components/Navbar";
 import HomePage from "./pages/HomePage";
 import CustomersPage from "./pages/CustomersPage";
 import InvoicesPage from "./pages/InvoicesPage";
+import LoginPage from "./pages/LoginPage";
 
 const root = createRoot(document.getElementById("app"));
 root.render(
@@ -21,6 +22,7 @@ root.render(
 		<main className="container pt-5">
 			<Routes>
 				<Route path="/" element={<HomePage />} />
+				<Route path="/login" element={<LoginPage />} />
 				<Route path="/customers" element={<CustomersPage />} />
 				<Route path="/invoices" element={<InvoicesPage />} />
 			</Routes>
