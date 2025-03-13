@@ -1,5 +1,28 @@
 import axios from "axios";
-import CustomersApi from "./CustomersApi";
+import { jwtDecode } from "jwt-decode";
+
+function setAxiosToken(token) {
+	axios.defaults.headers["Authorization"] = "Bearer " + token;
+}
+
+function setUp() {
+	const token = window.localStorage.getItem("authToken");
+	if (token) {
+		const jwtData = jwtDecode(token);
+		if (jwtData.exp * 1000 > new Date().getTime()) {
+			setAxiosToken(token);
+		}
+	}
+}
+
+function isAuthenticated() {
+	const token = window.localStorage.getItem("authToken");
+	if (token) {
+		const jwtData = jwtDecode(token);
+		return jwtData.exp * 1000 > new Date().getTime();
+	}
+	return false;
+}
 
 function authenticate(credentials) {
 	return axios
@@ -7,17 +30,18 @@ function authenticate(credentials) {
 		.then((response) => response.data.token)
 		.then((token) => {
 			window.localStorage.setItem("authToken", token);
-			axios.defaults.headers["Authorization"] = "Bearer " + token;
+			setAxiosToken(token);
 		});
 }
 
 function logout() {
 	window.localStorage.removeItem("authToken");
 	delete axios.defaults.headers["Authorization"];
-	CustomersApi.findAll().then(console.log);
 }
 
 export default {
+	isAuthenticated,
 	authenticate,
 	logout,
+	setUp,
 };

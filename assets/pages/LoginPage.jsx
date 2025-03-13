@@ -1,7 +1,9 @@
 import React, { useState } from "react";
 import AuthApi from "../services/AuthApi";
+import { useNavigate } from "react-router-dom";
 
-const LoginPage = (props) => {
+const LoginPage = ({ onLogin }) => {
+	const navigate = useNavigate();
 	const [credentials, setCredentials] = useState({
 		username: "",
 		password: "",
@@ -18,7 +20,9 @@ const LoginPage = (props) => {
 
 		try {
 			await AuthApi.authenticate(credentials);
+			onLogin(true);
 			setError("");
+			navigate("/customers");
 		} catch (error) {
 			setError("Informations incorrectes");
 		}

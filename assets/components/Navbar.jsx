@@ -1,17 +1,22 @@
 import React from "react";
 import AuthApi from "../services/AuthApi";
+import { NavLink, useNavigate } from "react-router-dom";
 
-const Navbar = (props) => {
+const Navbar = ({ isAuthenticated, onLogout }) => {
+	const navigate = useNavigate();
+
 	const handleLogout = () => {
 		AuthApi.logout();
+		onLogout(false);
+		navigate("/");
 	};
 
 	return (
 		<nav className="navbar navbar-expand-lg bg-dark" data-bs-theme="dark">
 			<div className="container-fluid">
-				<a className="navbar-brand" href="#">
+				<NavLink className="navbar-brand" to="/">
 					CRM
-				</a>
+				</NavLink>
 				<button
 					className="navbar-toggler"
 					type="button"
@@ -26,35 +31,43 @@ const Navbar = (props) => {
 				<div className="collapse navbar-collapse" id="navbarColor02">
 					<ul className="navbar-nav me-auto">
 						<li className="nav-item">
-							<a className="nav-link" href="#">
+							<NavLink className="nav-link" to="/customers">
 								CLients
-							</a>
+							</NavLink>
 						</li>
 						<li className="nav-item">
-							<a className="nav-link" href="#">
+							<NavLink className="nav-link" to="/invoices">
 								Factures
-							</a>
+							</NavLink>
 						</li>
 					</ul>
 					<ul className="navbar-nav ml-auto">
-						<li className="nav-item">
-							<a href="#" className="btn btn-outline-primary">
-								Connexion
-							</a>
-						</li>
-						<li className="nav-item">
-							<a href="#" className="btn">
-								Inscription
-							</a>
-						</li>
-						<li className="nav-item">
-							<button
-								onClick={handleLogout}
-								className="btn btn-outline-danger"
-							>
-								Déconnexion
-							</button>
-						</li>
+						{!isAuthenticated ? (
+							<>
+								<li className="nav-item">
+									<NavLink
+										to="/login"
+										className="btn btn-outline-primary"
+									>
+										Connexion
+									</NavLink>
+								</li>
+								<li className="nav-item">
+									<NavLink className="btn" to="/register">
+										Inscription
+									</NavLink>
+								</li>
+							</>
+						) : (
+							<li className="nav-item">
+								<button
+									onClick={handleLogout}
+									className="btn btn-outline-danger"
+								>
+									Déconnexion
+								</button>
+							</li>
+						)}
 					</ul>
 				</div>
 			</div>
