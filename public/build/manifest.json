@@ -1,13 +1,8 @@
 {
-  "build/app.css": "http://localhost:8080/build/app.css",
   "build/app.js": "http://localhost:8080/build/app.js",
   "build/runtime.js": "http://localhost:8080/build/runtime.js",
-  "build/vendors-node_modules_mini-css-extract-plugin_dist_hmr_hotModuleReplacement_js-node_modules_re-36ca99.js": "http://localhost:8080/build/vendors-node_modules_mini-css-extract-plugin_dist_hmr_hotModuleReplacement_js-node_modules_re-36ca99.js",
-  "build/vendors-node_modules_mini-css-extract-plugin_dist_hmr_hotModuleReplacement_js-node_modules_re-e9cd99.js": "http://localhost:8080/build/vendors-node_modules_mini-css-extract-plugin_dist_hmr_hotModuleReplacement_js-node_modules_re-e9cd99.js",
-  "build/vendors-node_modules_mini-css-extract-plugin_dist_hmr_hotModuleReplacement_js-node_modules_re-394ce6.js": "http://localhost:8080/build/vendors-node_modules_mini-css-extract-plugin_dist_hmr_hotModuleReplacement_js-node_modules_re-394ce6.js",
-  "build/vendors-node_modules_mini-css-extract-plugin_dist_hmr_hotModuleReplacement_js-node_modules_re-d235f8.js": "http://localhost:8080/build/vendors-node_modules_mini-css-extract-plugin_dist_hmr_hotModuleReplacement_js-node_modules_re-d235f8.js",
-  "build/vendors-node_modules_mini-css-extract-plugin_dist_hmr_hotModuleReplacement_js-node_modules_re-ff860f.js": "http://localhost:8080/build/vendors-node_modules_mini-css-extract-plugin_dist_hmr_hotModuleReplacement_js-node_modules_re-ff860f.js",
-  "build/vendors-node_modules_mini-css-extract-plugin_dist_hmr_hotModuleReplacement_js-node_modules_re-23f7bc.js": "http://localhost:8080/build/vendors-node_modules_mini-css-extract-plugin_dist_hmr_hotModuleReplacement_js-node_modules_re-23f7bc.js",
   "build/vendors-node_modules_react-dom_client_js-node_modules_react_jsx-runtime_js-node_modules_webpa-601640.js": "http://localhost:8080/build/vendors-node_modules_react-dom_client_js-node_modules_react_jsx-runtime_js-node_modules_webpa-601640.js",
-  "build/vendors-node_modules_react-dom_client_js-node_modules_react_jsx-runtime_js-node_modules_webpa-7d221d.js": "http://localhost:8080/build/vendors-node_modules_react-dom_client_js-node_modules_react_jsx-runtime_js-node_modules_webpa-7d221d.js"
+  "build/vendors-node_modules_react-dom_client_js-node_modules_react_jsx-runtime_js-node_modules_webpa-7d221d.js": "http://localhost:8080/build/vendors-node_modules_react-dom_client_js-node_modules_react_jsx-runtime_js-node_modules_webpa-7d221d.js",
+  "build/vendors-node_modules_react-dom_client_js-node_modules_react_jsx-runtime_js-node_modules_webpa-9d5849.js": "http://localhost:8080/build/vendors-node_modules_react-dom_client_js-node_modules_react_jsx-runtime_js-node_modules_webpa-9d5849.js",
+  "build/vendors-node_modules_react-dom_client_js-node_modules_react_jsx-runtime_js-node_modules_webpa-dc1047.js": "http://localhost:8080/build/vendors-node_modules_react-dom_client_js-node_modules_react_jsx-runtime_js-node_modules_webpa-dc1047.js"
 }

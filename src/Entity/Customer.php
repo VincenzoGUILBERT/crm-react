@@ -19,8 +19,9 @@ use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 
 #[ApiResource(
-    paginationEnabled: true,
+    paginationEnabled: false,
     paginationItemsPerPage: 50,
+    paginationClientEnabled: true,
     paginationClientItemsPerPage: true,
     order: ['lastName' => 'ASC'],
     normalizationContext: ['groups' => ['customers_read']],
@@ -64,7 +65,7 @@ class Customer
 
     #[ORM\Column(length: 255)]
     #[Groups(['customers_read', 'invoices_read'])]
-    #[Assert\NotBlank(message:"Cette valeure ne peut pas être vide.")]
+    #[Assert\NotBlank(message: "Cette valeure ne peut pas être vide.")]
     #[Assert\Email(message: "Adresse invalide.")]
     private ?string $email = null;
 
@@ -146,7 +147,7 @@ class Customer
     #[Groups(['customers_read'])]
     public function getTotalAmount(): float
     {
-        return array_reduce($this->invoices->toArray(), function($total, $invoice) {
+        return array_reduce($this->invoices->toArray(), function ($total, $invoice) {
             return $total + $invoice->getAmount();
         }, 0);
     }
@@ -154,7 +155,7 @@ class Customer
     #[Groups(['customers_read'])]
     public function getUnpaidAmount(): float
     {
-        return array_reduce($this->invoices->toArray(), function($total, $invoice) {
+        return array_reduce($this->invoices->toArray(), function ($total, $invoice) {
             if ($invoice->getStatus() == 'SENT') {
                 return $total + $invoice->getAmount();
             }

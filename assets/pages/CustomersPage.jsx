@@ -1,47 +1,65 @@
-import axios from "axios";
 import React, { useEffect, useState } from "react";
 import Pagination from "../components/Pagination";
+import CustomersApi from "../services/CustomersApi";
 
 const CustomersPage = (props) => {
 	const [customers, setCustomers] = useState([]);
 	const [currentPage, setCurrentPage] = useState(1);
+	const [search, setSearch] = useState("");
 
 	useEffect(() => {
-		axios
-			.get("http://127.0.0.1:8000/api/customers")
-			.then((response) => response.data.member)
+		CustomersApi.findAll()
 			.then((data) => setCustomers(data))
 			.catch((error) => console.log(error.response));
 	}, []);
 
-	const handleDelete = (id) => {
+	const handleDelete = async (id) => {
 		const originalCustomers = [...customers];
 		setCustomers(customers.filter((customer) => customer.id !== id));
 
-		axios
-			.delete("http://127.0.0.1:8000/api/customers/" + id)
-			.then((response) => {
-				console.log(response);
-			})
-			.catch((error) => {
-				setCustomers(originalCustomers);
-				console.log(error.response);
-			});
+		try {
+			await CustomersApi.delete(id);
+		} catch (error) {
+			setCustomers(originalCustomers);
+		}
 	};
 
 	const handleCurrentPage = (page) => {
 		setCurrentPage(page);
 	};
 
+	const handleSearch = ({ currentTarget }) => {
+		setSearch(currentTarget.value);
+		setCurrentPage(1);
+	};
+
 	const itemsPerPage = 10;
+
+	const filteredCustomers = customers.filter(
+		(c) =>
+			c.firstName.toLowerCase().includes(search.toLowerCase()) ||
+			c.lastName.toLowerCase().includes(search.toLowerCase()) ||
+			c.email.toLowerCase().includes(search.toLowerCase()) ||
+			c.company?.toLowerCase().includes(search.toLowerCase())
+	);
+
 	const paginatedCustomers = Pagination.getData(
-		customers,
+		filteredCustomers,
 		currentPage,
 		itemsPerPage
 	);
 
 	return (
 		<>
+			<div className="form-group">
+				<input
+					type="text"
+					className="form-control"
+					placeholder="Rechercher"
+					onChange={handleSearch}
+					value={search}
+				/>
+			</div>
 			<table className="table-hover">
 				<thead>
 					<tr className="table-light">
@@ -78,12 +96,14 @@ const CustomersPage = (props) => {
 				</tbody>
 			</table>
 
-			<Pagination
-				currentPage={currentPage}
-				itemsPerPage={itemsPerPage}
-				length={customers.length}
-				onPageChange={handleCurrentPage}
-			/>
+			{itemsPerPage < filteredCustomers.length && (
+				<Pagination
+					currentPage={currentPage}
+					itemsPerPage={itemsPerPage}
+					length={filteredCustomers.length}
+					onPageChange={handleCurrentPage}
+				/>
+			)}
 		</>
 	);
 };
