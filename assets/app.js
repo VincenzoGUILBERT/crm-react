@@ -16,7 +16,7 @@ import InvoicesPage from "./pages/InvoicesPage";
 import LoginPage from "./pages/LoginPage";
 import AuthApi from "./services/AuthApi";
 import { useState } from "react";
-import Private from "./components/Private";
+import ProtectedRoutes from "./components/ProtectedRoutes";
 import AuthContext from "./contexts/AuthContext";
 
 const App = () => {
@@ -38,22 +38,16 @@ const App = () => {
 					<Routes>
 						<Route path="/" element={<HomePage />} />
 						<Route path="/login" element={<LoginPage />} />
-						<Route
-							path="/customers"
-							element={
-								<Private>
-									<CustomersPage />
-								</Private>
-							}
-						/>
-						<Route
-							path="/invoices"
-							element={
-								<Private>
-									<InvoicesPage />
-								</Private>
-							}
-						/>
+						<Route element={<ProtectedRoutes />}>
+							<Route
+								path="/customers"
+								element={<CustomersPage />}
+							/>
+							<Route
+								path="/invoices"
+								element={<InvoicesPage />}
+							/>
+						</Route>
 					</Routes>
 				</main>
 			</HashRouter>
