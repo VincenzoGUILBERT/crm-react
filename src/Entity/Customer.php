@@ -15,6 +15,7 @@ use ApiPlatform\Metadata\Delete;
 use ApiPlatform\Metadata\GetCollection;
 use ApiPlatform\Metadata\Patch;
 use ApiPlatform\Metadata\Post;
+use ApiPlatform\Metadata\Put;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -29,6 +30,7 @@ use Symfony\Component\Validator\Constraints as Assert;
         new Get(),
         new Post(),
         new GetCollection(),
+        new Put(),
         new Patch(),
         new Delete()
     ]

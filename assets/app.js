@@ -18,6 +18,7 @@ import AuthApi from "./services/AuthApi";
 import { useState } from "react";
 import ProtectedRoutes from "./components/ProtectedRoutes";
 import AuthContext from "./contexts/AuthContext";
+import CustomerPage from "./pages/CustomerPage";
 
 const App = () => {
 	AuthApi.setUp();
@@ -42,6 +43,10 @@ const App = () => {
 							<Route
 								path="/customers"
 								element={<CustomersPage />}
+							/>
+							<Route
+								path="/customers/:id"
+								element={<CustomerPage />}
 							/>
 							<Route
 								path="/invoices"

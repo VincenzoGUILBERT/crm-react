@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Pagination from "../components/Pagination";
 import CustomersApi from "../services/CustomersApi";
+import { Link } from "react-router-dom";
 
 const CustomersPage = (props) => {
 	const [customers, setCustomers] = useState([]);
@@ -51,6 +52,12 @@ const CustomersPage = (props) => {
 
 	return (
 		<>
+			<div className="d-flex justify-content-between align-items-center mb-3">
+				<h1>Clients</h1>
+				<Link to="/customers/new" className="btn btn-primary">
+					Nouveau
+				</Link>
+			</div>
 			<div className="form-group">
 				<input
 					type="text"
