@@ -2,6 +2,7 @@ import React, { useContext, useState } from "react";
 import AuthApi from "../services/AuthApi";
 import { useNavigate } from "react-router-dom";
 import AuthContext from "../contexts/AuthContext";
+import Field from "../components/forms/Field";
 
 const LoginPage = (props) => {
 	const navigate = useNavigate();
@@ -37,29 +38,24 @@ const LoginPage = (props) => {
 			<h1>Connexion</h1>
 
 			<form onSubmit={handleSubmit}>
-				<div className="form-group">
-					<label htmlFor="username">Email</label>
-					<input
-						value={credentials.username}
-						onChange={handleChange}
-						id="username"
-						type="email"
-						name="username"
-						className={"form-control" + (error && " is-invalid")}
-					/>
-					{error && <p className="invalid-feedback">{error}</p>}
-				</div>
-				<div className="form-group">
-					<label htmlFor="password">Mot de passe</label>
-					<input
-						value={credentials.password}
-						onChange={handleChange}
-						id="password"
-						type="password"
-						name="password"
-						className="form-control"
-					/>
-				</div>
+				<Field
+					name="username"
+					label="Email"
+					value={credentials.username}
+					onChange={handleChange}
+					type="email"
+					placeholder="Adresse mail"
+					error={error}
+				/>
+				<Field
+					name="password"
+					label="Mot de passe"
+					value={credentials.password}
+					onChange={handleChange}
+					type="password"
+					placeholder="mot de passe"
+					error={error}
+				/>
 				<div className="form-group">
 					<button type="submit" className="btn btn-primary">
 						Connexion
