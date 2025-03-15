@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from "react";
 import Field from "../components/forms/Field";
-import axios from "axios";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
+import CustomersApi from "../services/CustomersApi";
 
 const CustomerPage = (props) => {
 	const { id } = useParams();
+	const navigate = useNavigate();
 
 	const customerObject = {
 		firstName: "",
@@ -19,10 +20,8 @@ const CustomerPage = (props) => {
 
 	const fetchCustomer = async (id) => {
 		try {
-			const data = await axios
-				.get("http://127.0.0.1:8000/api/customers/" + id)
-				.then((response) => response.data);
-			const { firstName, lastName, email, company } = data;
+			const { firstName, lastName, email, company } =
+				await CustomersApi.find(id);
 			setCustomer({ firstName, lastName, email, company });
 		} catch (error) {
 			console.log(error.response);
@@ -46,30 +45,20 @@ const CustomerPage = (props) => {
 
 		try {
 			if (isEditing) {
-				const response = await axios.patch(
-					"http://127.0.0.1:8000/api/customers/" + id,
-					customer,
-					{
-						headers: {
-							"Content-Type": "application/merge-patch+json",
-						},
-					}
-				);
-				console.log(response.data);
+				await CustomersApi.update(id, customer);
 			} else {
-				await axios.post(
-					"http://127.0.0.1:8000/api/customers",
-					customer
-				);
+				await CustomersApi.create(customer);
 				setErrors({});
+				navigate("/customers");
 			}
-		} catch (error) {
-			const violations = error.response.data.violations;
+		} catch ({ response }) {
+			const { violations } = response.data;
 			if (violations) {
 				const apiErrors = {};
 				violations.forEach(({ propertyPath, message }) => {
 					apiErrors[propertyPath] = message;
 				});
+
 				setErrors(apiErrors);
 			}
 		}
