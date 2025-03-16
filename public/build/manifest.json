@@ -1,8 +1,7 @@
 {
   "build/app.js": "http://localhost:8080/build/app.js",
   "build/runtime.js": "http://localhost:8080/build/runtime.js",
-  "build/vendors-node_modules_moment_locale_af_js-node_modules_moment_locale_ar-dz_js-node_modules_mom-b3d803.js": "http://localhost:8080/build/vendors-node_modules_moment_locale_af_js-node_modules_moment_locale_ar-dz_js-node_modules_mom-b3d803.js",
-  "build/vendors-node_modules_moment_locale_af_js-node_modules_moment_locale_ar-dz_js-node_modules_mom-1b70d9.js": "http://localhost:8080/build/vendors-node_modules_moment_locale_af_js-node_modules_moment_locale_ar-dz_js-node_modules_mom-1b70d9.js",
-  "build/vendors-node_modules_moment_locale_af_js-node_modules_moment_locale_ar-dz_js-node_modules_mom-b9e19c.js": "http://localhost:8080/build/vendors-node_modules_moment_locale_af_js-node_modules_moment_locale_ar-dz_js-node_modules_mom-b9e19c.js",
-  "build/vendors-node_modules_moment_locale_af_js-node_modules_moment_locale_ar-dz_js-node_modules_mom-946c58.js": "http://localhost:8080/build/vendors-node_modules_moment_locale_af_js-node_modules_moment_locale_ar-dz_js-node_modules_mom-946c58.js"
+  "build/vendors-node_modules_moment_locale_af_js-node_modules_moment_locale_ar-dz_js-node_modules_mom-946c58.js": "http://localhost:8080/build/vendors-node_modules_moment_locale_af_js-node_modules_moment_locale_ar-dz_js-node_modules_mom-946c58.js",
+  "build/vendors-node_modules_moment_locale_af_js-node_modules_moment_locale_ar-dz_js-node_modules_mom-595d04.js": "http://localhost:8080/build/vendors-node_modules_moment_locale_af_js-node_modules_moment_locale_ar-dz_js-node_modules_mom-595d04.js",
+  "build/vendors-node_modules_react-dom_client_js-node_modules_react_jsx-runtime_js-node_modules_webpa-37d331.js": "http://localhost:8080/build/vendors-node_modules_react-dom_client_js-node_modules_react_jsx-runtime_js-node_modules_webpa-37d331.js"
 }
