@@ -24,6 +24,10 @@ function isAuthenticated() {
 	return false;
 }
 
+function register(user) {
+	return axios.post("http://127.0.0.1:8000/api/users", user);
+}
+
 function authenticate(credentials) {
 	return axios
 		.post("http://127.0.0.1:8000/api/login_check", credentials)
@@ -41,6 +45,7 @@ function logout() {
 
 export default {
 	isAuthenticated,
+	register,
 	authenticate,
 	logout,
 	setUp,

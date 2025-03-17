@@ -41,7 +41,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      * @var string The hashed password
      */
     #[ORM\Column]
+    #[Assert\NotBlank(message: "Le mot de passe est obligatoire")]
     private ?string $password = null;
+
+    #[Assert\NotBlank(message: "la confirmation du mot de passe est obligatoire")]
+    #[Assert\IdenticalTo(propertyPath: "password", message: "la confirmation du mot de passe n'est pas valide")]
+    private ?string $confirmPassword = null;
 
     #[ORM\Column(length: 255)]
     #[Groups(['invoices_read', 'users_read'])]
@@ -136,6 +141,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setPassword(string $password): static
     {
         $this->password = $password;
+
+        return $this;
+    }
+
+    public function getConfirmPassword(): ?string
+    {
+        return $this->confirmPassword;
+    }
+
+    public function setConfirmPassword(string $confirmPassword): static
+    {
+        $this->confirmPassword = $confirmPassword;
 
         return $this;
     }

@@ -20,6 +20,7 @@ import ProtectedRoutes from "./components/ProtectedRoutes";
 import AuthContext from "./contexts/AuthContext";
 import CustomerPage from "./pages/CustomerPage";
 import InvoicePage from "./pages/InvoicePage";
+import RegisterPage from "./pages/RegisterPage";
 
 const App = () => {
 	AuthApi.setUp();
@@ -39,6 +40,7 @@ const App = () => {
 				<main className="container pt-5">
 					<Routes>
 						<Route path="/" element={<HomePage />} />
+						<Route path="/register" element={<RegisterPage />} />
 						<Route path="/login" element={<LoginPage />} />
 						<Route element={<ProtectedRoutes />}>
 							<Route
