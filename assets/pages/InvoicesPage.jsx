@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import Pagination from "../components/Pagination";
 import InvoicesApi from "../services/InvoicesApi";
 import { Link } from "react-router-dom";
+import { toast } from "react-toastify";
 
 const InvoicesPage = (props) => {
 	const [invoices, setInvoices] = useState([]);
@@ -24,7 +25,7 @@ const InvoicesPage = (props) => {
 	useEffect(() => {
 		InvoicesApi.findAll()
 			.then((data) => setInvoices(data))
-			.catch((error) => console.log(error.response));
+			.catch(() => toast.error("Une erreur est survenue"));
 	}, []);
 
 	const handleDelete = async (id) => {
@@ -35,6 +36,7 @@ const InvoicesPage = (props) => {
 			await InvoicesApi.delete(id);
 		} catch (error) {
 			setInvoices(originalInvoices);
+			toast.error("Une erreur est survenue");
 		}
 	};
 
@@ -96,8 +98,10 @@ const InvoicesPage = (props) => {
 						<tr key={invoice.id} className="table-light">
 							<td>{invoice.chrono}</td>
 							<td>
-								{invoice.customer.firstName}{" "}
-								{invoice.customer.lastName}
+								<Link to={"/customers/" + invoice.customer.id}>
+									{invoice.customer.firstName}{" "}
+									{invoice.customer.lastName}
+								</Link>
 							</td>
 							<td className="text-center">
 								{formatDate(invoice.sentAt)}

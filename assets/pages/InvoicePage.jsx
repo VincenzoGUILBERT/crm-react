@@ -5,6 +5,7 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 import CustomersApi from "../services/CustomersApi";
 import axios from "axios";
 import InvoicesApi from "../services/InvoicesApi";
+import { toast } from "react-toastify";
 
 const InvoicePage = (props) => {
 	const invoiceObject = {
@@ -32,15 +33,15 @@ const InvoicePage = (props) => {
 					});
 				}
 			})
-			.catch((error) => console.log(error.response));
+			.catch((error) => toast.error("Impossible de charger les clients"));
 	}, []);
 
 	const fetchInvoice = async (id) => {
 		try {
 			const { amount, status, customer } = await InvoicesApi.find(id);
 			setInvoice({ amount, status, customer: customer.id });
-		} catch ({ response }) {
-			console.log(response);
+		} catch (error) {
+			toast.error("Impossible de charger la facture");
 		}
 	};
 
@@ -62,8 +63,10 @@ const InvoicePage = (props) => {
 		try {
 			if (isEditing) {
 				await InvoicesApi.update(id, invoice);
+				toast.success("Facture modifiée");
 			} else {
 				await InvoicesApi.create(invoice);
+				toast.success("Facture crée");
 				navigate("/invoices");
 			}
 		} catch ({ response }) {

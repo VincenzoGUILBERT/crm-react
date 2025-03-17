@@ -3,6 +3,7 @@ import AuthApi from "../services/AuthApi";
 import { useNavigate } from "react-router-dom";
 import AuthContext from "../contexts/AuthContext";
 import Field from "../components/forms/Field";
+import { toast } from "react-toastify";
 
 const LoginPage = (props) => {
 	const navigate = useNavigate();
@@ -27,6 +28,7 @@ const LoginPage = (props) => {
 			await AuthApi.authenticate(credentials);
 			setIsAuthenticated(true);
 			setError("");
+			toast.success("Connecté");
 			navigate("/customers");
 		} catch (error) {
 			setError("Informations incorrectes");

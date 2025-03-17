@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import Field from "../components/forms/Field";
 import { Link, useNavigate } from "react-router-dom";
 import AuthApi from "../services/AuthApi";
+import { toast } from "react-toastify";
 
 const RegisterPage = (props) => {
 	const userObject = {
@@ -27,8 +28,8 @@ const RegisterPage = (props) => {
 		try {
 			await AuthApi.register(user);
 			setErrors({});
+			toast.success("Vous pouvez vous connecter");
 			navigate("/login");
-			console.log(response);
 		} catch ({ response }) {
 			const { violations } = response.data;
 			if (violations) {

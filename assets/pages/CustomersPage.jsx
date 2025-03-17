@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import Pagination from "../components/Pagination";
 import CustomersApi from "../services/CustomersApi";
 import { Link } from "react-router-dom";
+import { toast } from "react-toastify";
 
 const CustomersPage = (props) => {
 	const [customers, setCustomers] = useState([]);
@@ -11,7 +12,7 @@ const CustomersPage = (props) => {
 	useEffect(() => {
 		CustomersApi.findAll()
 			.then((data) => setCustomers(data))
-			.catch((error) => console.log(error.response));
+			.catch((error) => toast.error("impossible de charger les clients"));
 	}, []);
 
 	const handleDelete = async (id) => {
@@ -22,6 +23,7 @@ const CustomersPage = (props) => {
 			await CustomersApi.delete(id);
 		} catch (error) {
 			setCustomers(originalCustomers);
+			toast.error("Une erreur est survenue");
 		}
 	};
 
@@ -84,16 +86,21 @@ const CustomersPage = (props) => {
 						<tr key={customer.id} className="table-light">
 							<td>{customer.id}</td>
 							<td>
-								{customer.firstName} {customer.lastName}
+								<Link to={"/customers/" + customer.id}>
+									{customer.firstName} {customer.lastName}
+								</Link>
 							</td>
 							<td>{customer.email}</td>
 							<td>{customer.company}</td>
 							<td>{customer.invoices.length}</td>
 							<td>{customer.totalAmount.toLocaleString()} $</td>
 							<td>
+								<Link to={"/customers/" + customer.id}>
+									Editer
+								</Link>
 								<button
 									onClick={() => handleDelete(customer.id)}
-									className="btn btn-outline-danger"
+									className="btn btn-outline-danger ml-3"
 								>
 									Supprimer
 								</button>
