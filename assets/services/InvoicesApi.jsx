@@ -1,19 +1,16 @@
 import axios from "axios";
+import { INVOICES_API } from "../config";
 
 function find(id) {
-	return axios
-		.get("http://127.0.0.1:8000/api/invoices/" + id)
-		.then((response) => response.data);
+	return axios.get(INVOICES_API + "/" + id).then((response) => response.data);
 }
 
 function findAll() {
-	return axios
-		.get("http://127.0.0.1:8000/api/invoices")
-		.then((response) => response.data.member);
+	return axios.get(INVOICES_API).then((response) => response.data.member);
 }
 
 function create(invoice) {
-	axios.post("http://127.0.0.1:8000/api/invoices", {
+	axios.post(INVOICES_API, {
 		...invoice,
 		customer: `/api/customers/${invoice.customer}`,
 		amount: parseFloat(invoice.amount),
@@ -22,7 +19,7 @@ function create(invoice) {
 
 function update(id, invoice) {
 	return axios.patch(
-		"http://127.0.0.1:8000/api/invoices/" + id,
+		INVOICES_API + "/" + id,
 		{
 			...invoice,
 			customer: `/api/customers/${invoice.customer}`,
@@ -37,7 +34,7 @@ function update(id, invoice) {
 }
 
 function deleteInvoices(id) {
-	return axios.delete("http://127.0.0.1:8000/api/invoices/" + id);
+	return axios.delete(INVOICES_API + "/" + id);
 }
 
 export default {
